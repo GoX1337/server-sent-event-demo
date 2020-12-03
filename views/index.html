@@ -12,14 +12,23 @@
     <script type="text/javascript">
 
         var source = new EventSource('/events');
-
-        // handle messages
+        
         source.onmessage = function (event) {
-            console.log("event", event.data);
-            const newElement = document.createElement("li");
-            const eventList = document.getElementById("list");
-            newElement.innerHTML = "message: " + event.data;
-            eventList.appendChild(newElement);
+            let eventJson = JSON.parse(event.data);
+            console.log("event", eventJson);
+            if(Array.isArray(eventJson)){
+                eventJson.forEach(e => {
+                    const newElement = document.createElement("li");
+                    const eventList = document.getElementById("list");
+                    newElement.innerHTML = "event: " + e.msg;
+                    eventList.appendChild(newElement);
+                });
+            } else {
+                const newElement = document.createElement("li");
+                const eventList = document.getElementById("list");
+                newElement.innerHTML = "event: " + eventJson.msg;
+                eventList.appendChild(newElement);
+            } 
         };
     </script>
 </body>
