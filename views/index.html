@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SSE demo</title>
+</head>
+<body>
+    <h1>Server-sent event demo</h1>
+    <ul id="list"></ul>
+
+    <script type="text/javascript">
+
+        var source = new EventSource('/events');
+
+        // handle messages
+        source.onmessage = function (event) {
+            console.log("event", event.data);
+            const newElement = document.createElement("li");
+            const eventList = document.getElementById("list");
+            newElement.innerHTML = "message: " + event.data;
+            eventList.appendChild(newElement);
+        };
+    </script>
+</body>
+</html>
